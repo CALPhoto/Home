@@ -283,21 +283,23 @@ document.liveUpdate = function( path, newValue, cssId, property ) {
 
         case "metadata.galleryTitle.value":
             $el = $("#galleryTitle");
-            $el.html(newValue);
+            $el.text(newValue);
             break;
 
         case "nonCSS.galleryAuthor.value":
             $el = $("#galleryAuthor");
+            $el.empty();
             if(newValue != ""){
                 if(storedGalleryAuthorURL != ""){
-                    $el.html('<a id="galleryAuthorURL" href="' + storedGalleryAuthorURL + '" target="_blank">' + "by " + newValue + '</a>');
+                    $el.append(
+                        $('<a id="galleryAuthorURL" target="_blank"></a>')
+                            .attr("href", storedGalleryAuthorURL)
+                            .text("by " + newValue)
+                    );
                 }
                 else {
-                    $el.html("by " + newValue);
+                    $el.text("by " + newValue);
                 }
-            }
-            else{
-                $el.html("");
             }
             break;
 
@@ -305,23 +307,23 @@ document.liveUpdate = function( path, newValue, cssId, property ) {
 
             storedGalleryAuthorURL = newValue;
 
-            var currentAuthorContent = $("#galleryAuthor").html();
-            if($("#galleryAuthor").find("#galleryAuthorURL").length != false){
-                currentAuthorContent = $("#galleryAuthorURL").html();
-            }
-            $("#galleryAuthor").html("");
+            var $existingAuthorLink = $("#galleryAuthorURL");
+            var $authorContents = $existingAuthorLink.length ? $existingAuthorLink.contents() : $("#galleryAuthor").contents();
 
-            var newAuthorContent = "";
+            $("#galleryAuthor").empty();
+
             if(newValue == ""){
-                newAuthorContent = currentAuthorContent;
+                $("#galleryAuthor").append($authorContents);
             }
             else{
-                newAuthorContent = '<a id="galleryAuthorURL" href="' + newValue + '" target="_blank">' + currentAuthorContent + '</a>';
+                $("#galleryAuthor").append(
+                    $('<a id="galleryAuthorURL" target="_blank"></a>')
+                        .attr("href", newValue)
+                        .append($authorContents)
+                );
             }
 
-            $("#galleryAuthor").html(newAuthorContent);
-
-            break;     
+            break;
 
         // Color Palette
 

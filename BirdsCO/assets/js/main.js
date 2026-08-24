@@ -566,14 +566,13 @@ function init(){
                 setImage();
             }
         );
-        var _metadata = "";
+        _$loupeMeta.empty();
         if($thumbnail.attr("data-title") != "nil"){
-            _metadata += '<p class="title">' + $thumbnail.attr("data-title") + '</p>';
+            _$loupeMeta.append($('<p class="title"></p>').text($thumbnail.attr("data-title")));
         }
         if($thumbnail.attr("data-caption") != "nil"){
-            _metadata += '<p class="caption">' + $thumbnail.attr("data-caption") + '</p>';
+            _$loupeMeta.append($('<p class="caption"></p>').text($thumbnail.attr("data-caption")));
         }
-        _$loupeMeta.html(_metadata);
         setLateralNavVisibilities();
     }
 
